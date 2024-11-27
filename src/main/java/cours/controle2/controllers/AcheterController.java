@@ -35,7 +35,7 @@ public class AcheterController {
 
         AcheterDTO achat = acheterService.SellActions(traderId, actionId, quantity);
 
-        return new ResponseEntity<>(achat, achat == null ? HttpStatus.INTERNAL_SERVER_ERROR : HttpStatus.OK);
+        return new ResponseEntity<>(achat, HttpStatus.OK);
     }
 
 }
