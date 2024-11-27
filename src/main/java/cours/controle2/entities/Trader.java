@@ -1,4 +1,4 @@
-﻿package cours.controle2.entities;
+package cours.controle2.entities;
 
 import jakarta.persistence.*;
 
