@@ -9,6 +9,6 @@ public class Routing
     @GetMapping("/")
     public String GetMainPage()
     {
-        return "index";
+        return "traders";
     }
 }
