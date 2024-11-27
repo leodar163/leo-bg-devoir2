@@ -10,6 +10,8 @@ async function onLoad() {
 
     let actions = await getActions(trader);
 
+    console.table(actions);
+
     document.getElementById("titre").innerText = `Actions achetées par ${trader.nom}`
 
     document.getElementById("action-list").innerHTML = await drawActionList(actions);
@@ -38,7 +40,7 @@ async function drawActionList(traderActions) {
         <ul>
             ${traderActions.map((action, index) => `
                 <li key=${index}>
-                    <span>nom action</span>
+                    <span>${action.action.nom}</span>
                     <span>${action.quantite}</span>
                     <span>${action.prix}€</span>
                     <button class="button">vendre</button>

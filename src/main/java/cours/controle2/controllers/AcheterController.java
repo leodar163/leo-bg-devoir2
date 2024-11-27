@@ -1,6 +1,6 @@
 package cours.controle2.controllers;
 
-import cours.controle2.entities.Acheter;
+import cours.controle2.dto.AcheterDTO;
 import cours.controle2.services.AcheterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ public class AcheterController {
 
     @RequestMapping("/of-trader/{traderId}")
     @ResponseBody
-    public ResponseEntity<List<Acheter>> GetAchetersOfTrader(@PathVariable Integer traderId)
+    public ResponseEntity<List<AcheterDTO>> GetAchetersOfTrader(@PathVariable Integer traderId)
     {
         return new ResponseEntity<>(acheterService.GetActionsOfTrader(traderId), HttpStatus.OK);
     }

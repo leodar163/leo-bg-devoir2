@@ -13,7 +13,7 @@ public class Acheter
     private AcheterId id;
 
     @Column(name = "montantAchat", nullable = false)
-    private Double prix;
+    private Float prix;
 
     @Column(name = "quantite", nullable = false)
     private Integer quantite;
@@ -28,12 +28,12 @@ public class Acheter
         this.id = id;
     }
 
-    public Double getPrix()
+    public Float getPrix()
     {
         return prix;
     }
 
-    public void setPrix(Double prix)
+    public void setPrix(Float prix)
     {
         this.prix = prix;
     }
