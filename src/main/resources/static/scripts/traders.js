@@ -1,4 +1,6 @@
-﻿document.addEventListener('DOMContentLoaded', onLoad);
+﻿window.onload = () => {
+    onLoad();
+}
 
 async function onLoad() {
     let traders = await getTraders();

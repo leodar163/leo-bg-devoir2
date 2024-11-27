@@ -3,3 +3,40 @@
     border-radius: 16px;
     cursor: pointer;
 }
+
+
+.actionlist {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    width: 100%;
+}
+
+.actionListRow {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 16px;
+}
+
+.actionListHeader {
+
+}
+
+.actionListElement {
+    display: flex;
+    width: 100%;
+}
+
+.sellSliderContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.sellSliderNumber {
+    width: 25%;
+}
+
+.sellSlider {
+    width: 75%;
+}

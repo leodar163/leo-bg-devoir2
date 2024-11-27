@@ -1,4 +1,7 @@
-﻿document.addEventListener('DOMContentLoaded', onLoad);
+﻿// document.addEventListener('DOMContentLoaded', onLoad);
+window.onload = () => {
+    onLoad();
+}
 
 async function onLoad() {
     let traderId = new URL(window.location).searchParams.get('id');
@@ -40,15 +43,21 @@ async function getActions(trader) {
 async function drawActionList(traderActions) {
 
     return `
-        <ul>
+        <ul class="actionlist">
+            <li class="actionListRow actionListHeader">
+            <span class="actionListElement">nom</span>
+            <span class="actionListElement">quantité</span>
+            <span class="actionListElement">prix</span>
+            <span class="actionListElement">vente</span>
+            </li>
             ${traderActions.map((action, index) => `
-                <li key=${index}>
-                    <span>${action.action.nom}</span>
-                    <span>${action.quantite}</span>
-                    <span>${action.prix}€</span>
-                    <div>
-                        <span id="slider-${index}-feedback">${action.quantite}</span>
-                        <input onchange="onSliderChange('slider-${index}')" type="range" min="0" max="${action.quantite}"
+                <li class="actionListRow actionListHeader" key=${index}>
+                    <span class="actionListElement">${action.action.nom}</span>
+                    <span class="actionListElement">${action.quantite}</span>
+                    <span class="actionListElement">${action.prix}€</span>
+                    <div class="actionListElement sellSliderContainer">
+                        <span class="sellSliderNumber" id="slider-${index}-feedback">${action.quantite}</span>
+                        <input class="sellSlider" onchange="onSliderChange('slider-${index}')" type="range" min="0" max="${action.quantite}"
                         value="${action.quantite}"
                         id="slider-${index}">
                     </div>
