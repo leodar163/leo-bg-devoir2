@@ -19,7 +19,7 @@ async function drawTraderList(traders) {
     <ul>
         ${traders.map(trader => `<li key="${trader.id}">
             <span>${trader.nom}</span>
-            <a href="/trader/${trader.id}">actions</a>
+            <a href="/trader?id=${trader.id}">actions</a>
         </li>`).join('')}
     </ul>
     `

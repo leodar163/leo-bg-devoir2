@@ -17,4 +17,9 @@ public class TraderService
     {
         return traderRepository.findAll();
     }
+
+    public Trader GetTraderById(Integer id)
+    {
+        return traderRepository.findById(id).orElse(null);
+    }
 }
