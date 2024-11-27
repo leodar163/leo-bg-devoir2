@@ -12,16 +12,18 @@ async function onLoad() {
 
     console.table(actions);
 
-    document.getElementById("titre").innerText = `Actions achetées par ${trader.nom}`
+    document.getElementById("titre").innerText = `Actions achetées par ${trader.nom}`;
 
     document.getElementById("action-list").innerHTML = await drawActionList(actions);
+
+    document.getElementById("acheter-wrapper").innerHTML = await drawAcheterForm(trader);
 }
 
 async function getTrader(id) {
     let response = await fetch(`trader/${id}`);
 
     if (!response.ok)
-        return undefined
+        return undefined;
 
     return  await response.json();
 }
@@ -30,7 +32,7 @@ async function getActions(trader) {
     let response = await fetch(`acheter/of-trader/${trader.id}`)
 
     if (!response.ok)
-        return undefined
+        return undefined;
 
     return await response.json();
 }
@@ -73,6 +75,64 @@ async function sell(traderId, actionId, sliderIndex) {
         body: JSON.stringify({
             traderId: traderId,
             actionId: actionId,
+            quantity: quantity
+        }),
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8'
+        }
+    });
+
+    if (!response.ok)
+        return undefined;
+
+    window.location.reload();
+}
+
+
+async function drawAcheterForm(trader) {
+    response = await fetch(`action/not-of-trader/${trader.id}`);
+
+    if (!response.ok)
+        return undefined;
+
+    missingActions = await response.json();
+
+    console.table(missingActions);
+
+    return `
+        <div>
+        <h2>acheter une nouvelle action</h2>
+            <select id="action-select">
+                ${missingActions.map((action, index) => `
+                    <option value=${action.id}>${action.nom}</option>
+                `)}
+            </select>
+            <div>
+                <label>prix</label>
+                <input id="action-price" type="number" min="0" value="100">
+            </div>
+            <div>
+                <label>quantité</label>
+                <input id="action-quantity" type="number" step="1" min="0" value="10">
+            </div>
+            <button onclick="buy(${trader.id})">acheter</button>
+        </div>
+    `
+}
+
+async function buy(traderId) {
+    let actionId =  parseInt(document.getElementById("action-select").value);
+    let price = parseInt(document.getElementById(`action-price`).value);
+    let quantity = parseInt(document.getElementById(`action-quantity`).value);
+
+    console.log(price);
+
+    let response = await fetch('acheter/acheter',{
+        method: 'POST',
+        body: JSON.stringify({
+            traderId: traderId,
+            actionId: actionId,
+            price: price,
             quantity: quantity
         }),
         headers: {

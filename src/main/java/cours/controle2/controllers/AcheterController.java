@@ -22,12 +22,12 @@ public class AcheterController {
     @ResponseBody
     public ResponseEntity<List<AcheterDTO>> GetAchetersOfTrader(@PathVariable Integer traderId)
     {
-        return new ResponseEntity<>(acheterService.GetActionsOfTrader(traderId), HttpStatus.OK);
+        return new ResponseEntity<>(acheterService.GetAchatsOfTrader(traderId), HttpStatus.OK);
     }
 
     @RequestMapping("/vendre")
     @ResponseBody
-    public ResponseEntity<AcheterDTO> SellActions(@RequestBody Map<String,Object> body, ServletRequest servletRequest)
+    public ResponseEntity<AcheterDTO> SellActions(@RequestBody Map<String,Object> body)
     {
         Integer traderId = (Integer) body.get("traderId");
         Integer actionId = (Integer) body.get("actionId");
@@ -37,5 +37,20 @@ public class AcheterController {
 
         return new ResponseEntity<>(achat, HttpStatus.OK);
     }
+
+    @RequestMapping("/acheter")
+    @ResponseBody
+    public ResponseEntity<AcheterDTO> BuyActions(@RequestBody Map<String,Object> body)
+    {
+        Integer traderId = (Integer) body.get("traderId");
+        Integer actionId = (Integer) body.get("actionId");
+        Integer price = (Integer)body.get("price");
+        Integer quantity = (Integer) body.get("quantity");
+
+        AcheterDTO achat = acheterService.BuyAction(traderId, actionId, price, quantity);
+
+        return new ResponseEntity<>(achat, HttpStatus.OK);
+    }
+
 
 }

@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class AcheterService
@@ -23,7 +22,7 @@ public class AcheterService
     @Autowired
     private ActionRepository actionRepository;
 
-    public List<AcheterDTO> GetActionsOfTrader(Integer traderId)
+    public List<AcheterDTO> GetAchatsOfTrader(Integer traderId)
     {
         Trader trader = traderRepository.findById(traderId).orElse(null);
         if (trader == null) return null;
@@ -48,6 +47,7 @@ public class AcheterService
 
         achat.setQuantite(achat.getQuantite() - quantite);
         acheterRepository.save(achat);
+        acheterRepository.flush();
 
         if (achat.getQuantite() <= 0)
         {
@@ -61,6 +61,27 @@ public class AcheterService
                 actionRepository.findById(achat.getId().getAction()).orElse(null),
                 achat.getQuantite(),
                 achat.getPrix()
+        );
+    }
+
+    public AcheterDTO BuyAction(Integer traderId, Integer actionId, Integer price, Integer quantite)
+    {
+        AcheterId achatId = new AcheterId();
+        achatId.setTrader(traderId);
+        achatId.setAction(actionId);
+        Acheter newAchat = new Acheter();
+        newAchat.setId(achatId);
+        newAchat.setPrix(price);
+        newAchat.setQuantite(quantite);
+
+        acheterRepository.save(newAchat);
+        acheterRepository.flush();
+
+        return new AcheterDTO(
+                traderRepository.findById(traderId).orElse(null),
+                actionRepository.findById(actionId).orElse(null),
+                newAchat.getQuantite(),
+                newAchat.getPrix()
         );
     }
 }
