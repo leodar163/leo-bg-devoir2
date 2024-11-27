@@ -36,6 +36,7 @@ async function getActions(trader) {
 }
 
 async function drawActionList(traderActions) {
+
     return `
         <ul>
             ${traderActions.map((action, index) => `
@@ -43,9 +44,44 @@ async function drawActionList(traderActions) {
                     <span>${action.action.nom}</span>
                     <span>${action.quantite}</span>
                     <span>${action.prix}€</span>
-                    <button class="button">vendre</button>
+                    <div>
+                        <span id="slider-${index}-feedback">${action.quantite}</span>
+                        <input onchange="onSliderChange('slider-${index}')" type="range" min="0" max="${action.quantite}"
+                        value="${action.quantite}"
+                        id="slider-${index}">
+                    </div>
+                    <button onclick="sell(${action.trader.id}, ${action.action.id}, ${index})" class="button">vendre</button>
                 </li>
             `).join('')}    
         </ul>
     `
+}
+
+function onSliderChange(sliderId) {
+    slider = document.getElementById(sliderId);
+    sliderFeedback = document.getElementById(sliderId+'-feedback');
+    sliderFeedback.innerText = `${slider.value}`;
+}
+
+async function sell(traderId, actionId, sliderIndex) {
+    let quantity = parseInt(document.getElementById(`slider-${sliderIndex}`).value);
+
+    console.log(traderId, actionId, quantity);
+
+    let response = await fetch('acheter/vendre',{
+        method: 'POST',
+        body: JSON.stringify({
+            traderId: traderId,
+            actionId: actionId,
+            quantity: quantity
+        }),
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8'
+        }
+    });
+
+    if (!response.ok)
+        return undefined;
+
+    window.location.reload();
 }
